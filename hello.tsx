@@ -1,45 +1,30 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-import {List, ListItem, ListItemText, ListItemIcon, Collapse} from '@material-ui/core'
-import InboxIcon from '@material-ui/icons/Inbox'
-import {ExpandMore, ExpandLess} from '@material-ui/icons'
+import {Select, MenuItem, FormControl, InputLabel} from '@material-ui/core'
 
-class MyList extends React.Component {
-    state = {
-        open: false
-    }
+const options = [
+  {value: 10, label: 'Ten'},
+  {value: 20, label: 'Twenty'},
+  {value: 30, label: 'Thirty'}
+]
 
-    toggleSublist = () => {
-        this.setState({
-            open: !this.state.open
-        })
-    }
+export default function MyList() {
+  const [selectedValue, setSelectedValue] = useState<string>('')
 
-    render() {
-        return <div>
-            <List>
-                <ListItem button onClick={this.toggleSublist}>
-                    <ListItemIcon>
-                        <InboxIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary='Hello'/>
-                    {
-                        this.state.open ? <ExpandLess/> : <ExpandMore/>
-                    }
-                </ListItem>
-                <Collapse in={this.state.open}>
-                    <List>
-                        <ListItem>
-                            <ListItemText primary='typescript'/>
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary='material-ui'/>
-                        </ListItem>
-                    </List>
-                </Collapse>
-            </List>
-        </div>
-    }
+  return <div>
+    <div>Selected Value: {selectedValue}</div>
+    <FormControl>
+      <InputLabel htmlFor="age">Age</InputLabel>
+      <Select
+        value={selectedValue}
+        onChange={event => setSelectedValue(event.target.value as string)}
+        inputProps={{name: 'age'}}
+        style={{width: 150}}
+      >
+        {options.map(({value, label}) => <MenuItem key={value} value={value}>{label}</MenuItem>)}
+      </Select>
+    </FormControl>
+  </div>
+
 }
 
-export default MyList
